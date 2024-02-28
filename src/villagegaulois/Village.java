@@ -7,13 +7,15 @@ public class Village {
 	private String nom;
 	private Chef chef;
 	private Gaulois[] villageois;
-	private Marche marche;;
+	private Marche marche;
+	private int nbEtals;
 	private int nbVillageois = 0;
 
 	public Village(String nom, int nbVillageoisMaximum, int nbEtals) {
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
-		this.marche = new Marche(nbEtals);
+		this.nbEtals = nbEtals;
+		marche = new Marche(nbEtals);
 	}
 
 	public String getNom() {
@@ -26,12 +28,13 @@ public class Village {
 	// DEBUT CLASSE INTERNE //
 	public class Marche{
 		int nbEtals; 
-		private Etal etals[] = new Etal[nbEtals];
+		private Etal etals[];
 		
 		public Marche(int nbEtals) {
 			this.nbEtals = nbEtals;
-			for(int i=0;i<nbEtals;i++) {
-				etals[i] = null;
+			Etal etals[] = new Etal[nbEtals];
+			for(int i=0 ; i<nbEtals;i++) {
+				etals[i] = new Etal();
 			}
 		}
 		void utiliserEtal(int indEtal, Gaulois vendeur, String produit, int nbProd) {
@@ -48,10 +51,10 @@ public class Village {
 		Etal[] trouverEtals(String prod) {
 			Etal etalsProd[] = new Etal[nbEtals];
 			int j = 0;
-			for(int i = 0; i < nbEtals;i++) {
+			for(int i = 0; i < nbEtals;i++){
 				if(etals[i].contientProduit(prod)) {
 					etalsProd[j] = etals[i];
-					j++;
+					j++;	
 				}
 			}
 			return etalsProd;
@@ -98,7 +101,7 @@ public class Village {
 		}
 		return null;
 	}
-
+	
 	public String afficherVillageois() {
 		StringBuilder chaine = new StringBuilder();
 		if (nbVillageois < 1) {
@@ -113,4 +116,38 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	
+	// FONCTION FEUILLE 7 //
+	public String installerVendeur(Gaulois vendeur, String produit,int nbProd) {
+		StringBuilder chaine = new StringBuilder();
+		chaine.append("Bonemine cherche un endroit pour vendre "+ nbProd + produit);
+		chaine.append("Le vendeur "+ vendeur + " vend des "+ produit + "à l'étal "+ marche.trouverEtalLibre());
+		return chaine.toString();
+	}
+	public String rechercherVendeursProduit(String produit) {
+		Etal etalsProd[] = new Etal[nbEtals];
+		StringBuilder chaine = new StringBuilder();
+		etalsProd = marche.trouverEtals(produit);
+		boolean isProdHere = false;
+		for(int i = 0 ; i<nbEtals;i++) {
+			if (etalsProd[i].contientProduit(produit)) {
+				isProdHere = true;
+				chaine.append("le vendeur" + etalsProd[i].getVendeur()+ "propose des"+ produit+ "au marché");
+			}
+		}
+		if (!isProdHere) {
+			chaine.append("Il n'y a pas de vendeur qui propose de "+ produit +" au marché");
+		}
+		return chaine.toString();
+	}
+	public Etal rechercherEtal(Gaulois vendeur) {
+		return null;
+	}
+	public String partirVendeur(Gaulois vendeur) {
+		return null;
+	}
+	public String afficherMarche() {
+		return null;
+	}
+	// FIN FEUILLE 7 //
 }
