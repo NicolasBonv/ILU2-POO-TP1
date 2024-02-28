@@ -21,6 +21,9 @@ public class Village {
 	public void setChef(Chef chef) {
 		this.chef = chef;
 	}
+	public class Marche{
+		private Etal etals[] = new Etal[50];
+	}
 
 	public void ajouterHabitant(Gaulois gaulois) {
 		if (nbVillageois < villageois.length) {
